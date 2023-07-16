@@ -1,0 +1,54 @@
+﻿@using DataAccess.DTOs;
+@model DataAccess.DTOs.RequestDTO.LoginDTO
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "";
+}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+
+<h1>Login</h1>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="LoginUser" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            @if (!string.IsNullOrWhiteSpace(Model.Error))
+            {
+                <div class="alert alert-danger mt-3">
+                    <strong>Error:</strong> @Model.Error
+                    <a href="@Url.Action("GetRegisterUserPage", "User", new UserDTO{Email = Model.Email, PassWord = Model.Password})" class="btn btn-primary">Register By Clicking here</a>
+                </div>
+            }
+            <div class="form-group">
+                <input type="submit" value="Login" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="GetRegisterUserPage">Register User</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+
+
