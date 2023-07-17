@@ -11,7 +11,7 @@ namespace BusinessLogic.BusinessLogics
         public static void SendEmail(string recipientEmail, string subject, string body)
         {
             string senderEmail = "eogidan22@gmail.com";
-            string senderPassword = "EMMAnuel1994$"; // Use your App Password if 2FA is enabled
+            string senderPassword = ""; // Use your App Password if 2FA is enabled
 
             SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587)
             {
