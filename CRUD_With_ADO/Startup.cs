@@ -27,6 +27,7 @@ namespace CRUD_With_ADO
 
             services.AddControllersWithViews();
             services.AddSingleton<HashingPassword>();
+            services.AddScoped<IEmailHelper, EmailHelper>();
             services.AddSingleton<AppSettings>(provider =>
             {
                 var configuration = provider.GetRequiredService<IConfiguration>();

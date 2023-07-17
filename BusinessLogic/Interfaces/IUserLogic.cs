@@ -13,6 +13,5 @@ namespace BusinessLogic.Interfaces
     {
         ServiceResult<string> Login(LoginDTO loginDetails);
         ServiceResult<UserDTO> Registration(UserDTO userDTO);
-
     }
 }

@@ -3,29 +3,29 @@ using System.Collections.Generic;
 using System.Net.Mail;
 using System.Net;
 using System.Text;
+using BusinessLogic.Interfaces;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace BusinessLogic.BusinessLogics
 {
-    internal class EmailHelper
+    public class EmailHelper : IEmailHelper
     {
-        public static void SendEmail(string recipientEmail, string subject, string body)
+   
+        private readonly string smtpUsername = "eogidan22@gmail.com";
+
+     
+
+        public async void SendEmail(string recipientEmail, string subject, string body, bool isHtml = false)
         {
-            string senderEmail = "eogidan22@gmail.com";
-            string senderPassword = ""; // Use your App Password if 2FA is enabled
-
-            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587)
-            {
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(senderEmail, senderPassword),
-                EnableSsl = true
-            };
-
-            MailMessage mailMessage = new MailMessage(senderEmail, recipientEmail, subject, body)
-            {
-                IsBodyHtml = true // Set to true if you are sending HTML content in the body.
-            };
-
-            smtpClient.Send(mailMessage);
+            //var apiKey = Environment.GetEnvironmentVariable("8c9d2f0279db30b374a76e3a16a7c743");
+            var client = new SendGridClient("ACcbe958b5caac5c398aa22256269d9110");
+            var from_email = new EmailAddress(smtpUsername, "Example User");
+            var to_email = new EmailAddress(recipientEmail, "Example User");
+            var plainTextContent = "and easy to do anywhere, even with C#";
+            var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
+            var msg = MailHelper.CreateSingleEmail(from_email, to_email, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg).ConfigureAwait(false);
         }
 
 

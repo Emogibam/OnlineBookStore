@@ -18,11 +18,13 @@ namespace BusinessLogic.BusinessLogics
     {
         private readonly IUserRepository _userRepository;
         private readonly HashingPassword _hashingPassword;
+        private readonly IEmailHelper _emailHelper;
 
-        public UserLogic(IUserRepository userRepository, HashingPassword hashingPassword)
+        public UserLogic(IUserRepository userRepository, HashingPassword hashingPassword, IEmailHelper emailHelper)
         {
             _userRepository = userRepository;
             this._hashingPassword = hashingPassword;
+            this._emailHelper = emailHelper;
         }
 
         public ServiceResult<string> Login(LoginDTO loginDetails)
@@ -50,7 +52,7 @@ namespace BusinessLogic.BusinessLogics
         }
         
 
-        public ServiceResult<UserDTO> Registration(UserDTO userDTO)
+        public  ServiceResult<UserDTO> Registration(UserDTO userDTO)
         {
             User existingUser = _userRepository.GetUserByEmail(userDTO.Email);
 
@@ -81,7 +83,7 @@ namespace BusinessLogic.BusinessLogics
             {
                 userDTO.Id = user.Id;
                 string body = "<h1>Hello, this is a test email!</h1>";
-                EmailHelper.SendEmail(userDTO.Email, "Confirm Email", body);
+                _emailHelper.SendEmail(userDTO.Email, "Confirm Email", body);
                 return new ServiceResult<UserDTO>(userDTO, 200, "SUcessfully Created");
             }
 
